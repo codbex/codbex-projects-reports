@@ -76,7 +76,7 @@
             "grouping": false
         }
     ],
-    "query": "SELECT codbexExpense.EXPENSE_NAME as \"Expense name\", codbexExpense.EXPENSE_DESCRIPTION as \"Description\", codbexExpense.EXPENSE_AMOUNT as \"Amount\", codbexExpense.EXPENSE_DATE as \"Date\", codbexApprovalstatus.APPROVALSTATUS_NAME as \"Status\", codbexEmployee.EMPLOYEE_FIRSTNAME as \"Employee\", codbexProject.PROJECT_NAME as \"Project name\", codbexExpensecategory.EXPENSECATEGORY_NAME as \"Category\"\nFROM CODBEX_EXPENSE as codbexExpense\n  INNER JOIN CODBEX_APPROVALSTATUS codbexApprovalstatus ON codbexExpense.EXPENSE_APPROVALSTATUS=codbexApprovalstatus.APPROVALSTATUS_ID\n  INNER JOIN CODBEX_EMPLOYEE codbexEmployee ON codbexExpense.EXPENSE_EMPLOYEE=codbexEmployee.EMPLOYEE_ID\n  INNER JOIN CODBEX_PROJECT codbexProject ON codbexExpense.EXPENSE_PROJECT=codbexProject.PROJECT_ID\n  INNER JOIN CODBEX_EXPENSECATEGORY codbexExpensecategory ON codbexExpense.EXPENSE_EXPENSECATEGORY=codbexExpensecategory.EXPENSECATEGORY_ID\nWHERE codbexExpense.EXPENSE_DATE > :DATE",
+    "query": "SELECT codbexExpense.EXPENSE_NAME as \"Expense name\", codbexExpense.EXPENSE_DESCRIPTION as \"Description\", codbexExpense.EXPENSE_AMOUNT as \"Amount\", codbexExpense.EXPENSE_DATE as \"Date\", codbexApprovalstatus.APPROVALSTATUS_NAME as \"Status\", codbexEmployee.EMPLOYEE_FIRSTNAME as \"Employee\", codbexProject.PROJECT_NAME as \"Project name\", codbexExpensecategory.EXPENSECATEGORY_NAME as \"Category\"\nFROM CODBEX_EXPENSE as codbexExpense\n  INNER JOIN CODBEX_APPROVALSTATUS codbexApprovalstatus ON codbexExpense.EXPENSE_APPROVALSTATUS=codbexApprovalstatus.APPROVALSTATUS_ID\n  INNER JOIN CODBEX_EMPLOYEE codbexEmployee ON codbexExpense.EXPENSE_EMPLOYEE=codbexEmployee.EMPLOYEE_ID\n  INNER JOIN CODBEX_PROJECT codbexProject ON codbexExpense.EXPENSE_PROJECT=codbexProject.PROJECT_ID\n  INNER JOIN CODBEX_EXPENSECATEGORY codbexExpensecategory ON codbexExpense.EXPENSE_EXPENSECATEGORY=codbexExpensecategory.EXPENSECATEGORY_ID\nWHERE codbexExpense.EXPENSE_DATE > :DATE AND codbexApprovalstatus.APPROVALSTATUS_NAME = :STATUS\nORDER BY EXPENSE_AMOUNT DESC",
     "joins": [
         {
             "alias": "codbexApprovalstatus",
@@ -108,6 +108,11 @@
             "left": "codbexExpense.EXPENSE_DATE",
             "operation": ">",
             "right": ":DATE"
+        },
+        {
+            "left": "codbexApprovalstatus.APPROVALSTATUS_NAME",
+            "operation": "=",
+            "right": ":STATUS"
         }
     ],
     "parameters": [
@@ -115,6 +120,17 @@
             "name": "DATE",
             "type": "DATE",
             "initial": "2024-01-01"
+        },
+        {
+            "name": "STATUS",
+            "type": "VARCHAR",
+            "initial": "Pending"
+        }
+    ],
+    "orderings": [
+        {
+            "column": "EXPENSE_AMOUNT",
+            "direction": "DESC"
         }
     ]
 }

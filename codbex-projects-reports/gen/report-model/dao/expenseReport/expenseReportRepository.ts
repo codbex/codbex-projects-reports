@@ -13,6 +13,7 @@ export interface expenseReport {
 
 export interface expenseReportFilter {
     readonly 'DATE?': Date;
+    readonly 'STATUS?': string;
 }
 
 export interface expenseReportPaginatedFilter extends expenseReportFilter {
@@ -36,7 +37,8 @@ export class expenseReportRepository {
               INNER JOIN CODBEX_EMPLOYEE codbexEmployee ON codbexExpense.EXPENSE_EMPLOYEE=codbexEmployee.EMPLOYEE_ID
               INNER JOIN CODBEX_PROJECT codbexProject ON codbexExpense.EXPENSE_PROJECT=codbexProject.PROJECT_ID
               INNER JOIN CODBEX_EXPENSECATEGORY codbexExpensecategory ON codbexExpense.EXPENSE_EXPENSECATEGORY=codbexExpensecategory.EXPENSECATEGORY_ID
-            WHERE codbexExpense.EXPENSE_DATE > :DATE
+            WHERE codbexExpense.EXPENSE_DATE > :DATE AND codbexApprovalstatus.APPROVALSTATUS_NAME = :STATUS
+            ORDER BY EXPENSE_AMOUNT DESC
             ${Number.isInteger(filter.$limit) ? ` LIMIT ${filter.$limit}` : ''}
             ${Number.isInteger(filter.$offset) ? ` OFFSET ${filter.$offset}` : ''}
         `;
@@ -46,6 +48,11 @@ export class expenseReportRepository {
             name: `DATE`,
             type: `DATE`,
             value: filter['DATE'] !== undefined ?  filter['DATE'] : `2024-01-01`
+        });
+        parameters.push({
+            name: `STATUS`,
+            type: `VARCHAR`,
+            value: filter['STATUS'] !== undefined ?  filter['STATUS'] : `Pending`
         });
 
         return Query.executeNamed(sql, parameters, this.datasourceName);
@@ -60,7 +67,8 @@ export class expenseReportRepository {
                   INNER JOIN CODBEX_EMPLOYEE codbexEmployee ON codbexExpense.EXPENSE_EMPLOYEE=codbexEmployee.EMPLOYEE_ID
                   INNER JOIN CODBEX_PROJECT codbexProject ON codbexExpense.EXPENSE_PROJECT=codbexProject.PROJECT_ID
                   INNER JOIN CODBEX_EXPENSECATEGORY codbexExpensecategory ON codbexExpense.EXPENSE_EXPENSECATEGORY=codbexExpensecategory.EXPENSECATEGORY_ID
-                WHERE codbexExpense.EXPENSE_DATE > :DATE
+                WHERE codbexExpense.EXPENSE_DATE > :DATE AND codbexApprovalstatus.APPROVALSTATUS_NAME = :STATUS
+                ORDER BY EXPENSE_AMOUNT DESC
             )
         `;
 
@@ -69,6 +77,11 @@ export class expenseReportRepository {
             name: `DATE`,
             type: `DATE`,
             value: filter.DATE !== undefined ?  filter.DATE : `2024-01-01`
+        });
+        parameters.push({
+            name: `STATUS`,
+            type: `VARCHAR`,
+            value: filter.STATUS !== undefined ?  filter.STATUS : `Pending`
         });
 
         return Query.executeNamed(sql, parameters, this.datasourceName)[0].REPORT_COUNT;

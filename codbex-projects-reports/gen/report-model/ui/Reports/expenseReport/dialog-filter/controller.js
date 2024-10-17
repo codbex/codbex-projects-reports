@@ -27,6 +27,9 @@ angular.module('page', ["ideUI", "ideView"])
 			if (entity.DATE) {
 				filter.DATE = entity.DATE?.getTime();
 			}
+			if (entity.STATUS) {
+				filter.STATUS = entity.STATUS;
+			}
 			messageHub.postMessage("entitySearch", {
 				entity: entity,
 				filter: filter

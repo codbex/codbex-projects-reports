@@ -12,6 +12,7 @@ class expenseReportService {
         try {
             const filter: expenseReportPaginatedFilter = {
                 DATE: ctx.queryParameters.DATE ? new Date(parseInt(ctx.queryParameters.DATE)) : undefined,
+                STATUS: ctx.queryParameters.STATUS ? ctx.queryParameters.STATUS : undefined,
                 "$limit": ctx.queryParameters["$limit"] ? parseInt(ctx.queryParameters["$limit"]) : undefined,
                 "$offset": ctx.queryParameters["$offset"] ? parseInt(ctx.queryParameters["$offset"]) : undefined
             };
@@ -27,6 +28,7 @@ class expenseReportService {
         try {
             const filter: expenseReportFilter = {
                 DATE: ctx.queryParameters.DATE ? new Date(parseInt(ctx.queryParameters.DATE)) : undefined,
+                STATUS: ctx.queryParameters.STATUS ? ctx.queryParameters.STATUS : undefined,
             };
             return this.repository.count(filter);
         } catch (error: any) {

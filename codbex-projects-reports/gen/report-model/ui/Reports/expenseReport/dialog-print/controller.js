@@ -16,6 +16,9 @@ angular.module('page', ["ideUI", "ideView", "entityApi"])
 			if (filterEntity.DATE) {
 				filter.DATE = new Date(filterEntity.DATE);
 			}
+			if (filterEntity.STATUS) {
+				filter.STATUS = filterEntity.STATUS;
+			}
 
             $scope.filter = filter;
 		}
