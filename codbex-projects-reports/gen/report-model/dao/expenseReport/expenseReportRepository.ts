@@ -12,6 +12,7 @@ export interface expenseReport {
 }
 
 export interface expenseReportFilter {
+    readonly 'DATE?': Date;
 }
 
 export interface expenseReportPaginatedFilter extends expenseReportFilter {
@@ -31,16 +32,21 @@ export class expenseReportRepository {
         const sql = `
             SELECT codbexExpense.EXPENSE_NAME as "Expense name", codbexExpense.EXPENSE_DESCRIPTION as "Description", codbexExpense.EXPENSE_AMOUNT as "Amount", codbexExpense.EXPENSE_DATE as "Date", codbexApprovalstatus.APPROVALSTATUS_NAME as "Status", codbexEmployee.EMPLOYEE_FIRSTNAME as "Employee", codbexProject.PROJECT_NAME as "Project name", codbexExpensecategory.EXPENSECATEGORY_NAME as "Category"
             FROM CODBEX_EXPENSE as codbexExpense
-              INNER JOIN CODBEX_APPROVALSTATUS codbexApprovalstatus ON codbexExpense.EXPENSE_ID=codbexApprovalstatus.APPROVALSTATUS_ID
-              INNER JOIN CODBEX_EMPLOYEE codbexEmployee ON codbexExpense.EXPENSE_ID=codbexEmployee.EMPLOYEE_ID
-              INNER JOIN CODBEX_PROJECT codbexProject ON codbexExpense.EXPENSE_ID=codbexProject.PROJECT_ID
-              INNER JOIN CODBEX_EXPENSECATEGORY codbexExpensecategory ON codbexExpense.EXPENSE_ID=codbexExpensecategory.EXPENSECATEGORY_ID
-            WHERE codbexExpense.EXPENSE_DATE > '2024-01-01'
+              INNER JOIN CODBEX_APPROVALSTATUS codbexApprovalstatus ON codbexExpense.EXPENSE_APPROVALSTATUS=codbexApprovalstatus.APPROVALSTATUS_ID
+              INNER JOIN CODBEX_EMPLOYEE codbexEmployee ON codbexExpense.EXPENSE_EMPLOYEE=codbexEmployee.EMPLOYEE_ID
+              INNER JOIN CODBEX_PROJECT codbexProject ON codbexExpense.EXPENSE_PROJECT=codbexProject.PROJECT_ID
+              INNER JOIN CODBEX_EXPENSECATEGORY codbexExpensecategory ON codbexExpense.EXPENSE_EXPENSECATEGORY=codbexExpensecategory.EXPENSECATEGORY_ID
+            WHERE codbexExpense.EXPENSE_DATE > :DATE
             ${Number.isInteger(filter.$limit) ? ` LIMIT ${filter.$limit}` : ''}
             ${Number.isInteger(filter.$offset) ? ` OFFSET ${filter.$offset}` : ''}
         `;
 
         const parameters: NamedQueryParameter[] = [];
+        parameters.push({
+            name: `DATE`,
+            type: `DATE`,
+            value: filter['DATE'] !== undefined ?  filter['DATE'] : `2024-01-01`
+        });
 
         return Query.executeNamed(sql, parameters, this.datasourceName);
     }
@@ -50,15 +56,20 @@ export class expenseReportRepository {
             SELECT COUNT(*) as REPORT_COUNT FROM (
                 SELECT codbexExpense.EXPENSE_NAME as "Expense name", codbexExpense.EXPENSE_DESCRIPTION as "Description", codbexExpense.EXPENSE_AMOUNT as "Amount", codbexExpense.EXPENSE_DATE as "Date", codbexApprovalstatus.APPROVALSTATUS_NAME as "Status", codbexEmployee.EMPLOYEE_FIRSTNAME as "Employee", codbexProject.PROJECT_NAME as "Project name", codbexExpensecategory.EXPENSECATEGORY_NAME as "Category"
                 FROM CODBEX_EXPENSE as codbexExpense
-                  INNER JOIN CODBEX_APPROVALSTATUS codbexApprovalstatus ON codbexExpense.EXPENSE_ID=codbexApprovalstatus.APPROVALSTATUS_ID
-                  INNER JOIN CODBEX_EMPLOYEE codbexEmployee ON codbexExpense.EXPENSE_ID=codbexEmployee.EMPLOYEE_ID
-                  INNER JOIN CODBEX_PROJECT codbexProject ON codbexExpense.EXPENSE_ID=codbexProject.PROJECT_ID
-                  INNER JOIN CODBEX_EXPENSECATEGORY codbexExpensecategory ON codbexExpense.EXPENSE_ID=codbexExpensecategory.EXPENSECATEGORY_ID
-                WHERE codbexExpense.EXPENSE_DATE > '2024-01-01'
+                  INNER JOIN CODBEX_APPROVALSTATUS codbexApprovalstatus ON codbexExpense.EXPENSE_APPROVALSTATUS=codbexApprovalstatus.APPROVALSTATUS_ID
+                  INNER JOIN CODBEX_EMPLOYEE codbexEmployee ON codbexExpense.EXPENSE_EMPLOYEE=codbexEmployee.EMPLOYEE_ID
+                  INNER JOIN CODBEX_PROJECT codbexProject ON codbexExpense.EXPENSE_PROJECT=codbexProject.PROJECT_ID
+                  INNER JOIN CODBEX_EXPENSECATEGORY codbexExpensecategory ON codbexExpense.EXPENSE_EXPENSECATEGORY=codbexExpensecategory.EXPENSECATEGORY_ID
+                WHERE codbexExpense.EXPENSE_DATE > :DATE
             )
         `;
 
         const parameters: NamedQueryParameter[] = [];
+        parameters.push({
+            name: `DATE`,
+            type: `DATE`,
+            value: filter.DATE !== undefined ?  filter.DATE : `2024-01-01`
+        });
 
         return Query.executeNamed(sql, parameters, this.datasourceName)[0].REPORT_COUNT;
     }
