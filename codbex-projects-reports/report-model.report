@@ -4,10 +4,10 @@
     "table": "CODBEX_EXPENSE",
     "columns": [
         {
-            "table": "codbexExpense",
-            "alias": "Expense",
-            "name": "EXPENSE_NAME",
-            "type": "CHARACTER VARYING",
+            "table": "codbexProject",
+            "alias": "Project",
+            "name": "PROJECT_ID",
+            "type": "INTEGER",
             "aggregate": "NONE",
             "select": true,
             "grouping": false
@@ -23,9 +23,27 @@
         },
         {
             "table": "codbexExpense",
+            "alias": "Expense",
+            "name": "EXPENSE_NAME",
+            "type": "CHARACTER VARYING",
+            "aggregate": "NONE",
+            "select": true,
+            "grouping": false
+        },
+        {
+            "table": "codbexExpense",
             "alias": "Amount",
             "name": "EXPENSE_AMOUNT",
             "type": "DECIMAL",
+            "aggregate": "NONE",
+            "select": true,
+            "grouping": false
+        },
+        {
+            "table": "codbexEmployee",
+            "alias": "Employee",
+            "name": "EMPLOYEE_FIRSTNAME",
+            "type": "CHARACTER VARYING",
             "aggregate": "NONE",
             "select": true,
             "grouping": false
@@ -47,24 +65,15 @@
             "aggregate": "NONE",
             "select": true,
             "grouping": false
-        },
-        {
-            "table": "codbexProject",
-            "alias": "Project",
-            "name": "CODBEX_PROJECT",
-            "type": "VARCHAR",
-            "aggregate": "NONE",
-            "select": true,
-            "grouping": false
         }
     ],
-    "query": "SELECT codbexExpense.EXPENSE_NAME as \"Expense\", codbexExpensecategory.EXPENSECATEGORY_NAME as \"Category\", codbexExpense.EXPENSE_AMOUNT as \"Amount\", codbexExpense.EXPENSE_DATE as \"Date\", codbexApprovalstatus.APPROVALSTATUS_NAME as \"Status\", codbexProject.CODBEX_PROJECT as \"Project\"\nFROM CODBEX_EXPENSE as codbexExpense\n  INNER JOIN CODBEX_APPROVALSTATUS codbexApprovalstatus ON codbexExpense.EXPENSE_APPROVALSTATUS=codbexApprovalstatus.APPROVALSTATUS_ID\n  INNER JOIN CODBEX_EMPLOYEE codbexEmployee ON codbexExpense.EXPENSE_EMPLOYEE=codbexEmployee.EMPLOYEE_ID\n  INNER JOIN CODBEX_PROJECT codbexProject ON codbexExpense.EXPENSE_PROJECT=codbexProject.PROJECT_ID\n  INNER JOIN CODBEX_EXPENSECATEGORY codbexExpensecategory ON codbexExpense.EXPENSE_EXPENSECATEGORY=codbexExpensecategory.EXPENSECATEGORY_ID\nWHERE codbexExpense.EXPENSE_DATE > :DATE AND codbexApprovalstatus.APPROVALSTATUS_NAME = :STATUS\nORDER BY EXPENSE_AMOUNT DESC",
+    "query": "SELECT codbexProject.PROJECT_ID as \"Project\", codbexExpensecategory.EXPENSECATEGORY_NAME as \"Category\", codbexExpense.EXPENSE_NAME as \"Expense\", codbexExpense.EXPENSE_AMOUNT as \"Amount\", codbexEmployee.EMPLOYEE_FIRSTNAME as \"Employee\", codbexExpense.EXPENSE_DATE as \"Date\", codbexApprovalstatus.APPROVALSTATUS_NAME as \"Status\"\nFROM CODBEX_EXPENSE as codbexExpense\n  INNER JOIN CODBEX_APPROVALSTATUS codbexApprovalstatus ON codbexExpense.EXPENSE_STATUS=codbexApprovalstatus.APPROVALSTATUS_ID\n  INNER JOIN CODBEX_EMPLOYEE codbexEmployee ON codbexExpense.EXPENSE_EMPLOYEE=codbexEmployee.EMPLOYEE_ID\n  INNER JOIN CODBEX_PROJECT codbexProject ON codbexExpense.EXPENSE_PROJECT=codbexProject.PROJECT_ID\n  INNER JOIN CODBEX_EXPENSECATEGORY codbexExpensecategory ON codbexExpense.EXPENSE_EXPENSECATEGORY=codbexExpensecategory.EXPENSECATEGORY_ID\nWHERE codbexExpense.EXPENSE_DATE > :DATE AND codbexApprovalstatus.APPROVALSTATUS_NAME = :STATUS\nORDER BY EXPENSE_AMOUNT DESC",
     "joins": [
         {
             "alias": "codbexApprovalstatus",
             "name": "CODBEX_APPROVALSTATUS",
             "type": "INNER",
-            "condition": "codbexExpense.EXPENSE_APPROVALSTATUS=codbexApprovalstatus.APPROVALSTATUS_ID"
+            "condition": "codbexExpense.EXPENSE_STATUS=codbexApprovalstatus.APPROVALSTATUS_ID"
         },
         {
             "alias": "codbexEmployee",

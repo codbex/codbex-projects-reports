@@ -1,14 +1,13 @@
 import { Query, NamedQueryParameter } from "sdk/db";
 
 export interface expenseReport {
-    readonly 'Expense name': string;
-    readonly 'Description': string;
+    readonly 'Project': number;
+    readonly 'Category': string;
+    readonly 'Expense': string;
     readonly 'Amount': number;
+    readonly 'Employee': string;
     readonly 'Date': Date;
     readonly 'Status': string;
-    readonly 'Employee': string;
-    readonly 'Project name': string;
-    readonly 'Category': string;
 }
 
 export interface expenseReportFilter {
@@ -31,9 +30,9 @@ export class expenseReportRepository {
 
     public findAll(filter: expenseReportPaginatedFilter): expenseReport[] {
         const sql = `
-            SELECT codbexExpense.EXPENSE_NAME as "Expense name", codbexExpense.EXPENSE_DESCRIPTION as "Description", codbexExpense.EXPENSE_AMOUNT as "Amount", codbexExpense.EXPENSE_DATE as "Date", codbexApprovalstatus.APPROVALSTATUS_NAME as "Status", codbexEmployee.EMPLOYEE_FIRSTNAME as "Employee", codbexProject.PROJECT_NAME as "Project name", codbexExpensecategory.EXPENSECATEGORY_NAME as "Category"
+            SELECT codbexProject.PROJECT_ID as "Project", codbexExpensecategory.EXPENSECATEGORY_NAME as "Category", codbexExpense.EXPENSE_NAME as "Expense", codbexExpense.EXPENSE_AMOUNT as "Amount", codbexEmployee.EMPLOYEE_FIRSTNAME as "Employee", codbexExpense.EXPENSE_DATE as "Date", codbexApprovalstatus.APPROVALSTATUS_NAME as "Status"
             FROM CODBEX_EXPENSE as codbexExpense
-              INNER JOIN CODBEX_APPROVALSTATUS codbexApprovalstatus ON codbexExpense.EXPENSE_APPROVALSTATUS=codbexApprovalstatus.APPROVALSTATUS_ID
+              INNER JOIN CODBEX_APPROVALSTATUS codbexApprovalstatus ON codbexExpense.EXPENSE_STATUS=codbexApprovalstatus.APPROVALSTATUS_ID
               INNER JOIN CODBEX_EMPLOYEE codbexEmployee ON codbexExpense.EXPENSE_EMPLOYEE=codbexEmployee.EMPLOYEE_ID
               INNER JOIN CODBEX_PROJECT codbexProject ON codbexExpense.EXPENSE_PROJECT=codbexProject.PROJECT_ID
               INNER JOIN CODBEX_EXPENSECATEGORY codbexExpensecategory ON codbexExpense.EXPENSE_EXPENSECATEGORY=codbexExpensecategory.EXPENSECATEGORY_ID
@@ -61,9 +60,9 @@ export class expenseReportRepository {
     public count(filter: expenseReportFilter): number {
         const sql = `
             SELECT COUNT(*) as REPORT_COUNT FROM (
-                SELECT codbexExpense.EXPENSE_NAME as "Expense name", codbexExpense.EXPENSE_DESCRIPTION as "Description", codbexExpense.EXPENSE_AMOUNT as "Amount", codbexExpense.EXPENSE_DATE as "Date", codbexApprovalstatus.APPROVALSTATUS_NAME as "Status", codbexEmployee.EMPLOYEE_FIRSTNAME as "Employee", codbexProject.PROJECT_NAME as "Project name", codbexExpensecategory.EXPENSECATEGORY_NAME as "Category"
+                SELECT codbexProject.PROJECT_ID as "Project", codbexExpensecategory.EXPENSECATEGORY_NAME as "Category", codbexExpense.EXPENSE_NAME as "Expense", codbexExpense.EXPENSE_AMOUNT as "Amount", codbexEmployee.EMPLOYEE_FIRSTNAME as "Employee", codbexExpense.EXPENSE_DATE as "Date", codbexApprovalstatus.APPROVALSTATUS_NAME as "Status"
                 FROM CODBEX_EXPENSE as codbexExpense
-                  INNER JOIN CODBEX_APPROVALSTATUS codbexApprovalstatus ON codbexExpense.EXPENSE_APPROVALSTATUS=codbexApprovalstatus.APPROVALSTATUS_ID
+                  INNER JOIN CODBEX_APPROVALSTATUS codbexApprovalstatus ON codbexExpense.EXPENSE_STATUS=codbexApprovalstatus.APPROVALSTATUS_ID
                   INNER JOIN CODBEX_EMPLOYEE codbexEmployee ON codbexExpense.EXPENSE_EMPLOYEE=codbexEmployee.EMPLOYEE_ID
                   INNER JOIN CODBEX_PROJECT codbexProject ON codbexExpense.EXPENSE_PROJECT=codbexProject.PROJECT_ID
                   INNER JOIN CODBEX_EXPENSECATEGORY codbexExpensecategory ON codbexExpense.EXPENSE_EXPENSECATEGORY=codbexExpensecategory.EXPENSECATEGORY_ID
