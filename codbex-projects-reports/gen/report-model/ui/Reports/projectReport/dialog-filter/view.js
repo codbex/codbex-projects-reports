@@ -4,9 +4,9 @@
  * Do not modify the content as it may be re-generated again.
  */
 const viewData = {
-    id: "expenseReport-Report-filter",
-    label: "expenseReport Rerport Filter",
-    link: "/services/web/codbex-projects-reports/gen/report-model/ui/Reports/expenseReport/dialog-filter/index.html",
+    id: "projectReport-Report-filter",
+    label: "projectReport Rerport Filter",
+    link: "/services/web/codbex-projects-reports/gen/report-model/ui/Reports/projectReport/dialog-filter/index.html",
     perspectiveName: "Reports",
 };
 

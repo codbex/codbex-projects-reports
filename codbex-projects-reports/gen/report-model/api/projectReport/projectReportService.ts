@@ -1,18 +1,17 @@
 import { Controller, Get, Post } from "sdk/http"
-import { expenseReportRepository, expenseReportFilter, expenseReportPaginatedFilter } from "../../dao/expenseReport/expenseReportRepository";
+import { projectReportRepository, projectReportFilter, projectReportPaginatedFilter } from "../../dao/projectReport/projectReportRepository";
 import { HttpUtils } from "../utils/HttpUtils";
 
 @Controller
-class expenseReportService {
+class projectReportService {
 
-    private readonly repository = new expenseReportRepository();
+    private readonly repository = new projectReportRepository();
 
     @Get("/")
     public filter(_: any, ctx: any) {
         try {
-            const filter: expenseReportPaginatedFilter = {
-                DATE: ctx.queryParameters.DATE ? new Date(parseInt(ctx.queryParameters.DATE)) : undefined,
-                STATUS: ctx.queryParameters.STATUS ? ctx.queryParameters.STATUS : undefined,
+            const filter: projectReportPaginatedFilter = {
+                PROJECT_NAME: ctx.queryParameters.PROJECT_NAME ? ctx.queryParameters.PROJECT_NAME : undefined,
                 "$limit": ctx.queryParameters["$limit"] ? parseInt(ctx.queryParameters["$limit"]) : undefined,
                 "$offset": ctx.queryParameters["$offset"] ? parseInt(ctx.queryParameters["$offset"]) : undefined
             };
@@ -26,9 +25,8 @@ class expenseReportService {
     @Get("/count")
     public count(_: any, ctx: any) {
         try {
-            const filter: expenseReportFilter = {
-                DATE: ctx.queryParameters.DATE ? new Date(parseInt(ctx.queryParameters.DATE)) : undefined,
-                STATUS: ctx.queryParameters.STATUS ? ctx.queryParameters.STATUS : undefined,
+            const filter: projectReportFilter = {
+                PROJECT_NAME: ctx.queryParameters.PROJECT_NAME ? ctx.queryParameters.PROJECT_NAME : undefined,
             };
             return this.repository.count(filter);
         } catch (error: any) {

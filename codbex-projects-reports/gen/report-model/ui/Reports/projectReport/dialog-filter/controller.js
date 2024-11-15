@@ -1,6 +1,6 @@
 angular.module('page', ["ideUI", "ideView"])
 	.config(["messageHubProvider", function (messageHubProvider) {
-		messageHubProvider.eventIdPrefix = 'codbex-projects-reports.Reports.expenseReport';
+		messageHubProvider.eventIdPrefix = 'codbex-projects-reports.Reports.projectReport';
 	}])
 	.controller('PageController', ['$scope', 'messageHub', 'ViewParameters', function ($scope, messageHub, ViewParameters) {
 
@@ -11,9 +11,6 @@ angular.module('page', ["ideUI", "ideView"])
 
 		let params = ViewParameters.get();
 		if (Object.keys(params).length) {
-			if (params?.entity?.DATE) {
-				params.entity.DATE = new Date(params.entity.DATE);
-			}
 			$scope.entity = params.entity ?? {};
 			$scope.selectedMainEntityKey = params.selectedMainEntityKey;
 			$scope.selectedMainEntityId = params.selectedMainEntityId;
@@ -24,11 +21,8 @@ angular.module('page', ["ideUI", "ideView"])
 			const filter = {
 
 			};
-			if (entity.DATE) {
-				filter.DATE = entity.DATE?.getTime();
-			}
-			if (entity.STATUS) {
-				filter.STATUS = entity.STATUS;
+			if (entity.PROJECT_NAME) {
+				filter.PROJECT_NAME = entity.PROJECT_NAME;
 			}
 			messageHub.postMessage("entitySearch", {
 				entity: entity,
@@ -43,7 +37,7 @@ angular.module('page', ["ideUI", "ideView"])
 		};
 
 		$scope.cancel = function () {
-			messageHub.closeDialogWindow("expenseReport-Report-filter");
+			messageHub.closeDialogWindow("projectReport-Report-filter");
 		};
 
 		$scope.clearErrorMessage = function () {

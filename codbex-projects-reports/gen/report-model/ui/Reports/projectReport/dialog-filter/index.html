@@ -26,35 +26,19 @@
             </div>
 
             <fd-fieldset ng-form="forms.details">
-                <fd-form-group dg-header="expenseReport Filter" name="entityForm" class="fd-container fd-form-layout-grid-container">
+                <fd-form-group dg-header="projectReport Filter" name="entityForm" class="fd-container fd-form-layout-grid-container">
                     <fd-form-item class="fd-row">
                     	<div class="fd-col fd-col-md--2">
-                        	<fd-form-label for="idDATE" dg-colon="true">DATE</fd-form-label>
-                        </div>
-                        <div class="fd-col fd-col-md--2">
-	                        <fd-form-input-message-group dg-inactive="{{ forms.details['DATE'].$valid }}">
-	                            <fd-input id="idDATE"
-	                                name="DATE"
-	                                state="{{ forms.details['DATE'].$valid ? '' : 'error' }}"
-	                                ng-model="entity.DATE"
-	                                type="date">
-	                            </fd-input>
-	                            <fd-form-message dg-type="error">Incorrect Input</fd-form-message>
-	                        </fd-form-input-message-group>
-	                    </div>
-                    </fd-form-item>
-                    <fd-form-item class="fd-row">
-                    	<div class="fd-col fd-col-md--2">
-                        	<fd-form-label for="idSTATUS" dg-colon="true">STATUS</fd-form-label>
+                        	<fd-form-label for="idPROJECT_NAME" dg-colon="true">PROJECT_NAME</fd-form-label>
                         </div>
                         <div class="fd-col fd-col-md--8">
-	                        <fd-form-input-message-group dg-inactive="{{ forms.details['STATUS'].$valid }}">
-	                            <fd-input id="idSTATUS"
-	                                name="STATUS"
-	                                state="{{ forms.details['STATUS'].$valid ? '' : 'error' }}"
-	                                ng-model="entity.STATUS"
+	                        <fd-form-input-message-group dg-inactive="{{ forms.details['PROJECT_NAME'].$valid }}">
+	                            <fd-input id="idPROJECT_NAME"
+	                                name="PROJECT_NAME"
+	                                state="{{ forms.details['PROJECT_NAME'].$valid ? '' : 'error' }}"
+	                                ng-model="entity.PROJECT_NAME"
 	                                type="text"
-	                                placeholder="Enter STATUS">
+	                                placeholder="Enter PROJECT_NAME">
 	                            </fd-input>
 	                            <fd-form-message dg-type="error">Incorrect Input</fd-form-message>
 	                        </fd-form-input-message-group>
