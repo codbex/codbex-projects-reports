@@ -24,6 +24,7 @@
                 <thead fd-table-header sticky="true">
                     <tr fd-table-row>
 						<th fd-table-header-cell>Project</th>
+						<th fd-table-header-cell>Project Status</th>
 						<th fd-table-header-cell>Category</th>
 						<th fd-table-header-cell>Expense</th>
 						<th fd-table-header-cell>Amount</th>
@@ -38,6 +39,7 @@
                     </tr>
                     <tr fd-table-row hoverable="true" ng-repeat="next in data">
 						<td fd-table-cell hoverable="true" activable="true">{{next['Project']}}</td>
+						<td fd-table-cell hoverable="true" activable="true">{{next['Project Status']}}</td>
 						<td fd-table-cell hoverable="true" activable="true">{{next['Category']}}</td>
 						<td fd-table-cell hoverable="true" activable="true">{{next['Expense']}}</td>
 						<td fd-table-cell hoverable="true" activable="true">{{next['Amount']}}</td>
