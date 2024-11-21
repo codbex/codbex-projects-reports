@@ -13,6 +13,15 @@
             "grouping": true
         },
         {
+            "table": "codbexStatusType",
+            "alias": "Status",
+            "name": "STATUSTYPE_NAME",
+            "type": "CHARACTER VARYING",
+            "aggregate": "NONE",
+            "select": true,
+            "grouping": true
+        },
+        {
             "table": "codbexBudget",
             "alias": "TotalBudget",
             "name": "SUM(BUDGET_AMOUNT)",
@@ -58,7 +67,7 @@
             "grouping": false
         }
     ],
-    "query": "SELECT codbexProject.PROJECT_NAME as \"Project\", \n       COALESCE(B.TotalBudget, 0) as \"TotalBudget\",\n       COALESCE(B.TotalContingencyReserves, 0) as \"TotalContingencyReserves\",\n       COALESCE(E.TotalExpense, 0) as \"TotalExpense\",\n       (COALESCE(B.TotalBudget, 0) - COALESCE(B.TotalContingencyReserves, 0) - COALESCE(E.TotalExpense, 0)) as \"RemainingBudgetWithoutReserves\",\n       (COALESCE(B.TotalBudget, 0) - COALESCE(E.TotalExpense, 0)) as \"RemainingBudgetWithReserves\"\nFROM CODBEX_PROJECT as codbexProject\nLEFT JOIN (\n    SELECT BUDGET_PROJECT, \n           SUM(BUDGET_AMOUNT) AS TotalBudget, \n           SUM(BUDGET_CONTINGENCYRESERVES) AS TotalContingencyReserves\n    FROM CODBEX_BUDGET\n    GROUP BY BUDGET_PROJECT\n) B ON B.BUDGET_PROJECT = codbexProject.PROJECT_ID\nLEFT JOIN (\n    SELECT EXPENSE_PROJECT, SUM(EXPENSE_AMOUNT) AS TotalExpense\n    FROM CODBEX_EXPENSE\n    GROUP BY EXPENSE_PROJECT\n) E ON E.EXPENSE_PROJECT = codbexProject.PROJECT_ID\nWHERE codbexProject.PROJECT_NAME LIKE :PROJECT_NAME\nORDER BY codbexProject.PROJECT_NAME ASC",
+    "query": "SELECT codbexProject.PROJECT_NAME as \"Project\", \n       codbexStatusType.STATUSTYPE_NAME as \"Status\",\n       COALESCE(B.TotalBudget, 0) as \"TotalBudget\",\n       COALESCE(B.TotalContingencyReserves, 0) as \"TotalContingencyReserves\",\n       COALESCE(E.TotalExpense, 0) as \"TotalExpense\",\n       (COALESCE(B.TotalBudget, 0) - COALESCE(B.TotalContingencyReserves, 0) - COALESCE(E.TotalExpense, 0)) as \"RemainingBudgetWithoutReserves\",\n       (COALESCE(B.TotalBudget, 0) - COALESCE(E.TotalExpense, 0)) as \"RemainingBudgetWithReserves\"\nFROM CODBEX_PROJECT as codbexProject\nLEFT JOIN (\n    SELECT BUDGET_PROJECT, \n           SUM(BUDGET_AMOUNT) AS TotalBudget, \n           SUM(BUDGET_CONTINGENCYRESERVES) AS TotalContingencyReserves\n    FROM CODBEX_BUDGET\n    GROUP BY BUDGET_PROJECT\n) B ON B.BUDGET_PROJECT = codbexProject.PROJECT_ID\nLEFT JOIN (\n    SELECT EXPENSE_PROJECT, SUM(EXPENSE_AMOUNT) AS TotalExpense\n    FROM CODBEX_EXPENSE\n    GROUP BY EXPENSE_PROJECT\n) E ON E.EXPENSE_PROJECT = codbexProject.PROJECT_ID\nLEFT JOIN CODBEX_STATUSTYPE as codbexStatusType\nON codbexProject.PROJECT_STATUS = codbexStatusType.STATUSTYPE_ID\nWHERE codbexProject.PROJECT_NAME LIKE :PROJECT_NAME\nORDER BY codbexProject.PROJECT_NAME ASC",
     "joins": [
         {
             "type": "LEFT",
@@ -78,6 +87,16 @@
                 "left": "E.EXPENSE_PROJECT",
                 "operation": "=",
                 "right": "codbexProject.PROJECT_ID"
+            }
+        },
+        {
+            "type": "LEFT",
+            "table": "CODBEX_STATUSTYPE",
+            "alias": "codbexStatusType",
+            "on": {
+                "left": "codbexProject.PROJECT_STATUS",
+                "operation": "=",
+                "right": "codbexStatusType.STATUSTYPE_ID"
             }
         }
     ],

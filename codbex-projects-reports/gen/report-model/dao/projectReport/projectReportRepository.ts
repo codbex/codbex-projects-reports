@@ -2,6 +2,7 @@ import { Query, NamedQueryParameter } from "sdk/db";
 
 export interface projectReport {
     readonly 'Project': string;
+    readonly 'Status': string;
     readonly 'TotalBudget': number;
     readonly 'TotalContingencyReserves': number;
     readonly 'TotalExpense': number;
@@ -29,6 +30,7 @@ export class projectReportRepository {
     public findAll(filter: projectReportPaginatedFilter): projectReport[] {
         const sql = `
             SELECT codbexProject.PROJECT_NAME as "Project", 
+                   codbexStatusType.STATUSTYPE_NAME as "Status",
                    COALESCE(B.TotalBudget, 0) as "TotalBudget",
                    COALESCE(B.TotalContingencyReserves, 0) as "TotalContingencyReserves",
                    COALESCE(E.TotalExpense, 0) as "TotalExpense",
@@ -47,6 +49,8 @@ export class projectReportRepository {
                 FROM CODBEX_EXPENSE
                 GROUP BY EXPENSE_PROJECT
             ) E ON E.EXPENSE_PROJECT = codbexProject.PROJECT_ID
+            LEFT JOIN CODBEX_STATUSTYPE as codbexStatusType
+            ON codbexProject.PROJECT_STATUS = codbexStatusType.STATUSTYPE_ID
             WHERE codbexProject.PROJECT_NAME LIKE :PROJECT_NAME
             ORDER BY codbexProject.PROJECT_NAME ASC
             ${Number.isInteger(filter.$limit) ? ` LIMIT ${filter.$limit}` : ''}
@@ -67,6 +71,7 @@ export class projectReportRepository {
         const sql = `
             SELECT COUNT(*) as REPORT_COUNT FROM (
                 SELECT codbexProject.PROJECT_NAME as "Project", 
+                       codbexStatusType.STATUSTYPE_NAME as "Status",
                        COALESCE(B.TotalBudget, 0) as "TotalBudget",
                        COALESCE(B.TotalContingencyReserves, 0) as "TotalContingencyReserves",
                        COALESCE(E.TotalExpense, 0) as "TotalExpense",
@@ -85,6 +90,8 @@ export class projectReportRepository {
                     FROM CODBEX_EXPENSE
                     GROUP BY EXPENSE_PROJECT
                 ) E ON E.EXPENSE_PROJECT = codbexProject.PROJECT_ID
+                LEFT JOIN CODBEX_STATUSTYPE as codbexStatusType
+                ON codbexProject.PROJECT_STATUS = codbexStatusType.STATUSTYPE_ID
                 WHERE codbexProject.PROJECT_NAME LIKE :PROJECT_NAME
                 ORDER BY codbexProject.PROJECT_NAME ASC
             )

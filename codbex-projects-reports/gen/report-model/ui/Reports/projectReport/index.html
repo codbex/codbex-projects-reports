@@ -28,6 +28,7 @@
 				<thead fd-table-header sticky="true">
 					<tr fd-table-row>
 						<th fd-table-header-cell>Project</th>
+						<th fd-table-header-cell>Status</th>
 						<th fd-table-header-cell>TotalBudget</th>
 						<th fd-table-header-cell>TotalContingencyReserves</th>
 						<th fd-table-header-cell>TotalExpense</th>
@@ -43,6 +44,7 @@
 					<tr fd-table-row hoverable="true" ng-repeat="next in data"
 						dg-selected="next === selectedEntity" ng-click="selectEntity(next)">
 						<td fd-table-cell ng-click="openDetails(next)" hoverable="true" activable="true">{{next['Project']}}</td>
+						<td fd-table-cell ng-click="openDetails(next)" hoverable="true" activable="true">{{next['Status']}}</td>
 						<td fd-table-cell ng-click="openDetails(next)" hoverable="true" activable="true">{{next['TotalBudget']}}</td>
 						<td fd-table-cell ng-click="openDetails(next)" hoverable="true" activable="true">{{next['TotalContingencyReserves']}}</td>
 						<td fd-table-cell ng-click="openDetails(next)" hoverable="true" activable="true">{{next['TotalExpense']}}</td>
