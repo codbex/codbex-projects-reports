@@ -1,9 +1,9 @@
 angular.module('page', ["ideUI", "ideView", "entityApi"])
 	.config(["messageHubProvider", function (messageHubProvider) {
-		messageHubProvider.eventIdPrefix = 'codbex-projects-reports.Reports.expenseReport';
+		messageHubProvider.eventIdPrefix = 'codbex-projects-reports.Reports.projectReport';
 	}])
 	.config(["entityApiProvider", function (entityApiProvider) {
-		entityApiProvider.baseUrl = "/services/ts/codbex-projects-reports/gen/report-model/api/expenseReport/expenseReportService.ts";
+		entityApiProvider.baseUrl = "/services/ts/codbex-projects-reports/gen/report-model/api/projectReport/projectReportService.ts";
 	}])
 	.controller('PageController', ['$scope', 'messageHub', 'entityApi', 'Extensions', function ($scope, messageHub, entityApi, Extensions) {
 
@@ -13,8 +13,8 @@ angular.module('page', ["ideUI", "ideView", "entityApi"])
 
 		//-----------------Custom Actions-------------------//
 		Extensions.get('dialogWindow', 'codbex-projects-reports-custom-action').then(function (response) {
-			$scope.pageActions = response.filter(e => e.perspective === "Reports" && e.view === "expenseReport" && (e.type === "page" || e.type === undefined));
-			$scope.entityActions = response.filter(e => e.perspective === "Reports" && e.view === "expenseReport" && e.type === "entity");
+			$scope.pageActions = response.filter(e => e.perspective === "Reports" && e.view === "projectReport" && (e.type === "page" || e.type === undefined));
+			$scope.entityActions = response.filter(e => e.perspective === "Reports" && e.view === "projectReport" && e.type === "entity");
 		});
 
 		$scope.triggerPageAction = function (action) {
@@ -53,7 +53,7 @@ angular.module('page', ["ideUI", "ideView", "entityApi"])
 			$scope.dataPage = pageNumber;
 			entityApi.count(filter).then(function (response) {
 				if (response.status != 200) {
-					messageHub.showAlertError("expenseReport", `Unable to count expenseReport: '${response.message}'`);
+					messageHub.showAlertError("projectReport", `Unable to count projectReport: '${response.message}'`);
 					return;
 				}
 				if (response.data) {
@@ -71,13 +71,9 @@ angular.module('page', ["ideUI", "ideView", "entityApi"])
 				}
 				request.then(function (response) {
 					if (response.status != 200) {
-						messageHub.showAlertError("expenseReport", `Unable to list/filter expenseReport: '${response.message}'`);
+						messageHub.showAlertError("projectReport", `Unable to list/filter projectReport: '${response.message}'`);
 						return;
 					}
-
-					response.data.forEach(e => {
-					});
-
 					$scope.data = response.data;
 				});
 			});
@@ -90,14 +86,14 @@ angular.module('page', ["ideUI", "ideView", "entityApi"])
 
 		$scope.openDetails = function (entity) {
 			$scope.selectedEntity = entity;
-			messageHub.showDialogWindow("expenseReport-Report-details", {
+			messageHub.showDialogWindow("projectReport-Report-details", {
 				action: "select",
 				entity: entity,
 			});
 		};
 
 		$scope.openFilter = function (entity) {
-			messageHub.showDialogWindow("expenseReport-Report-filter", {
+			messageHub.showDialogWindow("projectReport-Report-filter", {
 				entity: $scope.filterEntity,
 			});
 		};

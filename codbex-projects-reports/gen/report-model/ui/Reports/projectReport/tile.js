@@ -6,8 +6,8 @@
 exports.getTile = function () {
     return {
         group: "Reports",
-        name: "expenseReport Report",
-        caption: "Report for entity expenseReport",
+        name: "projectReport Report",
+        caption: "Report for entity projectReport",
         tooltip: "${tooltip}",
         // icon: "file-o",
         location: "/services/web/codbex-projects-reports/gen/report-model/ui/Reports/index.html",

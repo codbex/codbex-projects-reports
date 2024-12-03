@@ -1,5 +1,5 @@
 {
-    "module": "codbex-projects-reports/gen/report-model/ui/Reports/expenseReport/dialog-filter/view.js",
+    "module": "codbex-projects-reports/gen/report-model/ui/Reports/projectReport/dialog-window/view.js",
     "extensionPoint": "codbex-projects-reports-dialog-window",
     "description": "codbex-projects-reports - Application Dialog Window"
 }

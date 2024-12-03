@@ -25,89 +25,18 @@
             </div>
 
             <fd-fieldset ng-form="formFieldset">
-                <fd-form-group dg-header="expenseReport Details" name="entityForm" class="fd-container fd-form-layout-grid-container">
+                <fd-form-group dg-header="projectReport Details" name="entityForm" class="fd-container fd-form-layout-grid-container">
                     <fd-form-item class="fd-row">
                     	<div class="fd-col fd-col-md--2">
                         	<fd-form-label for="idProject" dg-colon="true">Project</fd-form-label>
                         </div>
-                        <div class="fd-col fd-col-md--4">
-	                        <fd-step-input dg-id="idProject"
-								class="right-align"
-								name="Project"
-								ng-model="entity['Project']"
-								is-readonly="true"
-								placeholder="Enter Project"
-								>
-							</fd-step-input>
-	                    </div>
-                    </fd-form-item>
-                    <fd-form-item class="fd-row">
-                    	<div class="fd-col fd-col-md--2">
-                        	<fd-form-label for="idCategory" dg-colon="true">Category</fd-form-label>
-                        </div>
                         <div class="fd-col fd-col-md--8">
-	                        <fd-input id="idCategory"
-	                            name="Category"
-	                            ng-model="entity['Category']"
+	                        <fd-input id="idProject"
+	                            name="Project"
+	                            ng-model="entity['Project']"
 	                            ng-readonly="true"
 	                            type="text"
-	                            placeholder="Enter Category">
-	                        </fd-input>
-	                    </div>
-                    </fd-form-item>
-                    <fd-form-item class="fd-row">
-                    	<div class="fd-col fd-col-md--2">
-                        	<fd-form-label for="idExpense" dg-colon="true">Expense</fd-form-label>
-                        </div>
-                        <div class="fd-col fd-col-md--8">
-	                        <fd-input id="idExpense"
-	                            name="Expense"
-	                            ng-model="entity['Expense']"
-	                            ng-readonly="true"
-	                            type="text"
-	                            placeholder="Enter Expense">
-	                        </fd-input>
-	                    </div>
-                    </fd-form-item>
-                    <fd-form-item class="fd-row">
-                    	<div class="fd-col fd-col-md--2">
-                        	<fd-form-label for="idAmount" dg-colon="true">Amount</fd-form-label>
-                        </div>
-                        <div class="fd-col fd-col-md--4">
-	                        <fd-step-input dg-id="idAmount"
-								class="right-align"
-								name="Amount"
-								ng-model="entity['Amount']"
-								is-readonly="true"
-								placeholder="Enter Amount"
-								>
-							</fd-step-input>
-	                    </div>
-                    </fd-form-item>
-                    <fd-form-item class="fd-row">
-                    	<div class="fd-col fd-col-md--2">
-                        	<fd-form-label for="idEmployee" dg-colon="true">Employee</fd-form-label>
-                        </div>
-                        <div class="fd-col fd-col-md--8">
-	                        <fd-input id="idEmployee"
-	                            name="Employee"
-	                            ng-model="entity['Employee']"
-	                            ng-readonly="true"
-	                            type="text"
-	                            placeholder="Enter Employee">
-	                        </fd-input>
-	                    </div>
-                    </fd-form-item>
-                    <fd-form-item class="fd-row">
-                    	<div class="fd-col fd-col-md--2">
-                        	<fd-form-label for="idDate" dg-colon="true">Date</fd-form-label>
-                        </div>
-                        <div class="fd-col fd-col-md--2">
-	                        <fd-input id="idDate"
-	                            name="Date"
-	                            ng-model="entity['Date']"
-	                            ng-readonly="true"
-	                            type="date">
+	                            placeholder="Enter Project">
 	                        </fd-input>
 	                    </div>
                     </fd-form-item>
@@ -123,6 +52,81 @@
 	                            type="text"
 	                            placeholder="Enter Status">
 	                        </fd-input>
+	                    </div>
+                    </fd-form-item>
+                    <fd-form-item class="fd-row">
+                    	<div class="fd-col fd-col-md--2">
+                        	<fd-form-label for="idTotalBudget" dg-colon="true">TotalBudget</fd-form-label>
+                        </div>
+                        <div class="fd-col fd-col-md--4">
+	                        <fd-step-input dg-id="idTotalBudget"
+								class="right-align"
+								name="TotalBudget"
+								ng-model="entity['TotalBudget']"
+								is-readonly="true"
+								placeholder="Enter TotalBudget"
+								>
+							</fd-step-input>
+	                    </div>
+                    </fd-form-item>
+                    <fd-form-item class="fd-row">
+                    	<div class="fd-col fd-col-md--2">
+                        	<fd-form-label for="idTotalContingencyReserves" dg-colon="true">TotalContingencyReserves</fd-form-label>
+                        </div>
+                        <div class="fd-col fd-col-md--4">
+	                        <fd-step-input dg-id="idTotalContingencyReserves"
+								class="right-align"
+								name="TotalContingencyReserves"
+								ng-model="entity['TotalContingencyReserves']"
+								is-readonly="true"
+								placeholder="Enter TotalContingencyReserves"
+								>
+							</fd-step-input>
+	                    </div>
+                    </fd-form-item>
+                    <fd-form-item class="fd-row">
+                    	<div class="fd-col fd-col-md--2">
+                        	<fd-form-label for="idTotalExpense" dg-colon="true">TotalExpense</fd-form-label>
+                        </div>
+                        <div class="fd-col fd-col-md--4">
+	                        <fd-step-input dg-id="idTotalExpense"
+								class="right-align"
+								name="TotalExpense"
+								ng-model="entity['TotalExpense']"
+								is-readonly="true"
+								placeholder="Enter TotalExpense"
+								>
+							</fd-step-input>
+	                    </div>
+                    </fd-form-item>
+                    <fd-form-item class="fd-row">
+                    	<div class="fd-col fd-col-md--2">
+                        	<fd-form-label for="idRemainingBudgetWithoutReserves" dg-colon="true">RemainingBudgetWithoutReserves</fd-form-label>
+                        </div>
+                        <div class="fd-col fd-col-md--4">
+	                        <fd-step-input dg-id="idRemainingBudgetWithoutReserves"
+								class="right-align"
+								name="RemainingBudgetWithoutReserves"
+								ng-model="entity['RemainingBudgetWithoutReserves']"
+								is-readonly="true"
+								placeholder="Enter RemainingBudgetWithoutReserves"
+								>
+							</fd-step-input>
+	                    </div>
+                    </fd-form-item>
+                    <fd-form-item class="fd-row">
+                    	<div class="fd-col fd-col-md--2">
+                        	<fd-form-label for="idRemainingBudgetWithReserves" dg-colon="true">RemainingBudgetWithReserves</fd-form-label>
+                        </div>
+                        <div class="fd-col fd-col-md--4">
+	                        <fd-step-input dg-id="idRemainingBudgetWithReserves"
+								class="right-align"
+								name="RemainingBudgetWithReserves"
+								ng-model="entity['RemainingBudgetWithReserves']"
+								is-readonly="true"
+								placeholder="Enter RemainingBudgetWithReserves"
+								>
+							</fd-step-input>
 	                    </div>
                     </fd-form-item>
 				</fd-form-group>

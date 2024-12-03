@@ -1,9 +1,9 @@
 angular.module('page', ["ideUI", "ideView", "entityApi"])
     .config(["messageHubProvider", function (messageHubProvider) {
-        messageHubProvider.eventIdPrefix = 'codbex-projects-reports.Reports.expenseReport';
+        messageHubProvider.eventIdPrefix = 'codbex-projects-reports.Reports.projectReport';
     }])
     .config(["entityApiProvider", function (entityApiProvider) {
-        entityApiProvider.baseUrl = "/services/ts/codbex-projects-reports/gen/report-model/api/expenseReport/expenseReportService.ts";
+        entityApiProvider.baseUrl = "/services/ts/codbex-projects-reports/gen/report-model/api/projectReport/projectReportService.ts";
     }])
     .controller('PageController', ['$scope', 'messageHub', 'entityApi', 'ViewParameters', function ($scope, messageHub, entityApi, ViewParameters) {
 
@@ -13,11 +13,8 @@ angular.module('page', ["ideUI", "ideView", "entityApi"])
 
 			const filter = {
 			};
-			if (filterEntity.DATE) {
-				filter.DATE = new Date(filterEntity.DATE);
-			}
-			if (filterEntity.STATUS) {
-				filter.STATUS = filterEntity.STATUS;
+			if (filterEntity.PROJECT_NAME) {
+				filter.PROJECT_NAME = filterEntity.PROJECT_NAME;
 			}
 
             $scope.filter = filter;
@@ -35,16 +32,9 @@ angular.module('page', ["ideUI", "ideView", "entityApi"])
             }
             request.then(function (response) {
                 if (response.status != 200) {
-                    messageHub.showAlertError("expenseReport", `Unable to list/filter expenseReport: '${response.message}'`);
+                    messageHub.showAlertError("projectReport", `Unable to list/filter projectReport: '${response.message}'`);
                     return;
                 }
-
-                response.data.forEach(e => {
-                    if (e['Date']) {
-                        e['Date'] = new Date(e['Date']);
-                    }
-                });
-
                 $scope.data = response.data;
                 setTimeout(() => {
                     window.print();
@@ -55,7 +45,7 @@ angular.module('page', ["ideUI", "ideView", "entityApi"])
         $scope.loadPage($scope.filter);
 
         window.onafterprint = () => {
-            messageHub.closeDialogWindow("codbex-projects-reports-Reports-expenseReport-print");
+            messageHub.closeDialogWindow("codbex-projects-reports-Reports-projectReport-print");
         }
 
     }]);
