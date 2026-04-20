@@ -1,0 +1,34 @@
+name: Release - Module
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-version:
+        description: Release Version
+        required: true
+        default: 1.0.0
+
+run-name: 'version set to ${{ inputs.release-version }} for release'
+
+jobs:
+  main:
+    uses: codbex/codbex-infra/.github/workflows/module-release.yaml@main
+    with:
+      packages: codbex-projects-reports
+      packages-build: codbex-projects-reports
+      release-version: ${{ inputs.release-version }}
+      release-content: |
+        ## codbex-projects-reports - ${{ inputs.release-version }}
+        
+        Projects Reports Management Module
+        
+        ## Installation
+        
+        ```
+        npm install @codbex/codbex-projects-reports@${{ inputs.release-version }}
+        ```
+        
+        ## Access points:
+        
+        - [/services/web/codbex-projects-reports/gen/](http://localhost:80/services/web/codbex-projects-reports/gen/) - Admin Panel
+    secrets: inherit
